@@ -2,39 +2,12 @@ import { motion } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useRef } from "react";
-import pic1 from "../../assets/images/pic (1).png";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/api/supabaseClient";
+import pic1 from "../../assets/images/pic (1).png"; 
 import pic2 from "../../assets/images/pic (2).png";
-import pic3 from "../../assets/images/pic (3).png";
-import comma from '../../assets/images/inverted comma.png'
-const testimonials = [
-  {
-    id: 1,
-    name: "Alfredo Lubin",
-    role: "CEO at TechCorp",
-    feedback:
-      "I really like the system at this management. I have recommending this software to you guys.",
-    rating: 5,
-    img: pic1,
-  },
-  {
-    id: 2,
-    name: "Randy Levin",
-    role: "Financial Director",
-    feedback:
-      "We align our success with the success of our customers which is why we offering expensive stuff.",
-    rating: 5,
-    img: pic2,
-  },
-  {
-    id: 3,
-    name: "Angel Rhigo",
-    role: "Product Manager",
-    feedback:
-      "I wish like the system at this management. I have recommending this software to you guys.",
-    rating: 5,
-    img: pic3,
-  },
-];
+ import pic3 from "../../assets/images/pic (3).png";
+import comma from "../../assets/images/inverted comma.png";
 
 export function TestimonialsSection() {
   const scrollRef = useRef(null);
@@ -51,10 +24,29 @@ export function TestimonialsSection() {
     }
   };
 
+  async function fetchTestimonials() {
+    const { data, error } = await supabase.from("testimonials").select("*");
+    if (error) throw error;
+    return data;
+  }
+
+  const { data: testimonials = [], isLoading, isError } = useQuery({
+    queryKey: ["testimonials"],
+    queryFn: fetchTestimonials,
+  });
+
+  if (isLoading)
+    return <div className="text-center p-10">Loading testimonials...</div>;
+  if (isError)
+    return (
+      <div className="text-center text-red-500 p-10">
+        Error loading testimonials.
+      </div>
+    );
+
   return (
     <section className="py-20 bg-background">
-      <div className=" px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
+      <div className="px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +54,7 @@ export function TestimonialsSection() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-dynamicBorder text-sm font-medium mb-4">
-          <MessageSquare />
+            <MessageSquare />
             Testimonials
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold mb-4">
@@ -75,8 +67,7 @@ export function TestimonialsSection() {
           </p>
         </motion.div>
 
-        {/* Testimonial Cards */}
-        <div className="relative lg:ml-[13.5rem] ">
+        <div className="relative lg:ml-[13.5rem]">
           <div
             ref={scrollRef}
             className="flex justify-start gap-6 overflow-x-auto flex-nowrap pl-4 hide-scrollbar scroll-smooth"
@@ -94,38 +85,39 @@ export function TestimonialsSection() {
                   "{testimonial.feedback}"
                 </p>
 
-              <div className="flex justify-between">
+                <div className="flex justify-between">
                   <div className="flex items-center gap-3">
-                  <img
-                    src={testimonial.img}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full"
-                  />
-                  <div>
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <div className="flex gap-1 mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-5 h-5 fill-[#FFC250] text-[#FFC250]"
-                        />
-                      ))}
+                    <img
+                      src={`${testimonial.img}`}
+                      alt={testimonial.name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="font-semibold">{testimonial.name}</p>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {testimonial.role}
+                      </p>
+                      <div className="flex gap-1">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className="w-5 h-5 fill-[#FFC250] text-[#FFC250]"
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
+
+                  <img
+                    src={comma}
+                    alt="quote"
+                    className="w-[67.5px] h-[48px] opacity-100"
+                  />
                 </div>
-                <div>
-<img
-  src={comma}
-  alt="quote"
-  className="w-[67.5px] h-[48px] opacity-100 top-[219px] left-[741px] "
-/>
-                </div>
-              </div>
               </motion.div>
             ))}
           </div>
 
-          {/* Navigation buttons */}
           <div className="flex justify-center gap-3 mt-8">
             <Button
               variant="outline"

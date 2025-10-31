@@ -13,10 +13,9 @@ export function HeroSection() {
   const images = [photo, photo2, photo3, photo4];
 
   return (
-   <section className="h-[1600px]">
+   <section className="lg:h-[1640px] md-h-[1800px] sm:h-[2400px] h-[2850px]">
      <div className="relative pt-[200px]  pb-20  h-[1291px] bg-muted">
 
-      {/* Gradient glow effect */}
       
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -25,7 +24,6 @@ export function HeroSection() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-4xl mx-auto"
         >
-          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -36,7 +34,6 @@ export function HeroSection() {
           <span className="text-dynamicBorder">  Introducing AI Automation</span>
           </motion.div>
 
-          {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -48,7 +45,6 @@ export function HeroSection() {
               For Your Business
           </motion.h1>
 
-          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -58,7 +54,6 @@ export function HeroSection() {
             Empower your finance with this modern software's efficiency and experience of small and medium-sized business.
           </motion.p>
 
-          {/* Email input */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -75,7 +70,6 @@ export function HeroSection() {
             </Button>
           </motion.div>
 
-          {/* User avatars */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

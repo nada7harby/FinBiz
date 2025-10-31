@@ -14,7 +14,7 @@ export function SpendOverviewCard({ data }: { data: any[] }) {
   const [activeTab, setActiveTab] = useState('Monthly')
   const tabs = ['Daily', 'Weekly', 'Monthly', 'Yearly']
   return (
-    <div className=" rounded-2xl p-6 border  h-full">
+    <div className=" rounded-2xl lg:p-6 p-2 border  h-full">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-4 ">
         <h3 className=" text-xl font-semibold text-foreground">Spend Overview</h3>
         <div className="flex space-x-2 flex-wrap md:justify-center">

@@ -9,30 +9,48 @@ import team4 from "../../assets/images/team(4).png";
 import team5 from "../../assets/images/team(5).png";
 import vector from "../../assets/images/Vector.png";
 import CountUp from "react-countup";
-
-const simpleAnalyticsData = [
-  { value: 8 }, { value: 22 }, { value: 15 },
-  { value: 38 }, { value: 26 }, { value: 44 },
-  { value: 62 }, { value: 55 }, { value: 78 },
-  { value: 70 }, { value: 88 }, { value: 98 },
-];
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
 
 const team = [team1, team2, team3, team4, team5];
-const boostingBusinessData = [
-  { blue: 60, gray: 10 }, { blue: 80, gray: 45 },
-  { blue: 65, gray: 25 }, { blue: 95, gray: 50 },
-  { blue: 95, gray: 60 }, { blue: 100, gray: 25 },
-  { blue: 70, gray: 35 }, { blue: 95, gray: 10 },
-  { blue: 80, gray: 50 }, { blue: 60, gray: 10 },
-];
-
-const invoices = [
-  { name: "John Client_download.Pdf", color: "#FBADE0" },
-  { name: "Michele Leos_download.Pdf", color: "#6893FF" },
-  { name: "John Smith_download.Pdf", color: "#DFFF9D" },
-];
 
 export default function FeaturesSection() {
+  const { data: simpleAnalyticsData = [], isLoading: loadingSimple } = useQuery({
+    queryKey: ["simple_analytics_data"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("simple_analytics_data")
+        .select("*");
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const { data: boostingBusinessData = [], isLoading: loadingBoosting } =
+    useQuery({
+      queryKey: ["boosting_business_data"],
+      queryFn: async () => {
+        const { data, error } = await supabase
+          .from("boosting_business_data")
+          .select("*");
+        if (error) throw error;
+        return data;
+      },
+    });
+
+  // ----------- جلب بيانات invoices -----------
+  const { data: invoices = [], isLoading: loadingInvoices } = useQuery({
+    queryKey: ["invoices"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("invoices").select("*");
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  if (loadingSimple || loadingBoosting || loadingInvoices)
+    return <p className="text-center py-20">Loading data...</p>;
+
   return (
     <section id="features" className="py-16 sm:py-20 px-4 sm:px-6 bg-background">
       <div className="container mx-auto">
@@ -43,9 +61,7 @@ export default function FeaturesSection() {
           transition={{ duration: 0.6 }}
           className="space-y-10 sm:space-y-16"
         >
-          {/* ----------- Top Row ----------- */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {/* Simple analytics */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -53,28 +69,38 @@ export default function FeaturesSection() {
               transition={{ delay: 0.1 }}
               className="bg-card border border-border rounded-3xl p-6 sm:p-8"
             >
-              <h3 className="text-lg sm:text-xl font-bold mb-2">Simple analytics</h3>
+              <h3 className="text-lg sm:text-xl font-bold mb-2">
+                Simple analytics
+              </h3>
               <p className="text-sm text-muted-foreground mb-6 sm:mb-8">
-                Make informed decisions backed by data through our analytics tools.
+                Make informed decisions backed by data through our analytics
+                tools.
               </p>
 
               <div className="flex items-center gap-2 mb-6">
                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500">
                   <MoveUp className="w-4 h-4 text-emerald-500" />
                 </div>
-                <span className="text-lg sm:text-xl font-bold text-emerald-500">14.12%</span>
+                <span className="text-lg sm:text-xl font-bold text-emerald-500">
+                  14.12%
+                </span>
               </div>
 
               <div className="h-32 sm:h-40">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={simpleAnalyticsData}>
-                    <Line type="natural" dataKey="value" stroke="#10b981" strokeWidth={3} dot={false} />
+                    <Line
+                      type="natural"
+                      dataKey="value"
+                      stroke="#10b981"
+                      strokeWidth={3}
+                      dot={false}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             </motion.div>
 
-            {/* Boosting Business */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -88,21 +114,35 @@ export default function FeaturesSection() {
                   <br /> Today and Tomorrow.
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Bring harmony to team expenses with budget limits and real-time monitoring.
+                  Bring harmony to team expenses with budget limits and
+                  real-time monitoring.
                 </p>
               </div>
 
               <div className="h-32 sm:h-40">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={boostingBusinessData}>
-                    <Line type="linear" dataKey="gray" stroke="#4b5563" strokeWidth={2} dot={false} strokeDasharray="5 5" opacity={0.5} />
-                    <Line type="linear" dataKey="blue" stroke="#3b82f6" strokeWidth={2.5} dot={false} />
+                    <Line
+                      type="linear"
+                      dataKey="gray"
+                      stroke="#4b5563"
+                      strokeWidth={2}
+                      dot={false}
+                      strokeDasharray="5 5"
+                      opacity={0.5}
+                    />
+                    <Line
+                      type="linear"
+                      dataKey="blue"
+                      stroke="#3b82f6"
+                      strokeWidth={2.5}
+                      dot={false}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             </motion.div>
 
-            {/* Easy collaboration */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -111,9 +151,12 @@ export default function FeaturesSection() {
               className="bg-card border border-border rounded-3xl p-6 sm:p-8 flex flex-col justify-between"
             >
               <div>
-                <h3 className="text-lg sm:text-xl font-bold mb-2">Easy collaboration</h3>
+                <h3 className="text-lg sm:text-xl font-bold mb-2">
+                  Easy collaboration
+                </h3>
                 <p className="text-sm text-muted-foreground mb-8 sm:mb-12">
-                  Seamlessly collaborate with your team members like never before.
+                  Seamlessly collaborate with your team members like never
+                  before.
                 </p>
               </div>
 
@@ -135,9 +178,7 @@ export default function FeaturesSection() {
             </motion.div>
           </div>
 
-          {/* ----------- Bottom Row ----------- */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Real-time accounting */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -149,7 +190,8 @@ export default function FeaturesSection() {
                 Real-time accounting at your fingertips.
               </h3>
               <p className="text-sm text-muted-foreground mb-8 sm:mb-10">
-                Take the pain out of book keeping! Wave goodbye to mountains of paperwork and endless email reminders.
+                Take the pain out of book keeping! Wave goodbye to mountains of
+                paperwork and endless email reminders.
               </p>
 
               <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-8">
@@ -165,7 +207,9 @@ export default function FeaturesSection() {
                 </div>
 
                 <div className="flex-1 w-full">
-                  <div className="text-sm font-semibold text-center mb-4">Monthly Invoice</div>
+                  <div className="text-sm font-semibold text-center mb-4">
+                    Monthly Invoice
+                  </div>
                   <div className="space-y-3">
                     {invoices.map((invoice, index) => (
                       <div
@@ -176,7 +220,11 @@ export default function FeaturesSection() {
                           className="w-10 h-10 rounded-full flex items-center justify-center"
                           style={{ backgroundColor: invoice.color }}
                         >
-                          <img src={vector} alt={invoice.name} className="w-4 h-4 object-contain" />
+                          <img
+                            src={vector}
+                            alt={invoice.name}
+                            className="w-4 h-4 object-contain"
+                          />
                         </div>
                         <div className="flex-1">
                           <span className="text-sm">{invoice.name}</span>
@@ -192,7 +240,6 @@ export default function FeaturesSection() {
               </div>
             </motion.div>
 
-            {/* Expense management */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -204,7 +251,8 @@ export default function FeaturesSection() {
                 Optimise expense management as a team
               </h2>
               <p className="text-muted-foreground text-base sm:text-lg lg:text-[22px] mb-8 leading-relaxed">
-                Bring harmony to team expenses with budget limits and real-time monitoring.
+                Bring harmony to team expenses with budget limits and real-time
+                monitoring.
               </p>
               <Button
                 size="lg"

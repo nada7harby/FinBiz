@@ -32,7 +32,7 @@ const Index = () => {
           
         </div>
 
-        <div className="sticky top-0 z-50 py-4  backdrop-blur-md">
+        <div className="sticky top-0 z-10 py-4 ">
           <Tabs />
         </div>
 

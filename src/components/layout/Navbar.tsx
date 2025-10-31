@@ -13,16 +13,13 @@ export function Navbar() {
 
   return (
     <nav className="relative z-50 border-b border-border/40 bg-background/80 backdrop-blur-lg">
-      {/* Container */}
       <div className="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-24 xl:px-40 py-4">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
           <div className="flex items-center gap-3">
             <img src={logo} alt="FinBiz Logo" className="h-8 w-8 object-contain" />
             <span className="text-xl font-bold">FinBiz</span>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
@@ -35,14 +32,12 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Right side actions */}
           <div className="flex items-center gap-3">
-            {/* Theme Toggle */}
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="rounded-full transition-all hover:bg-primary/10"
+              className="rounded-full transition-all hover:bg-primary/10 relative z-100"
               aria-label="Toggle theme"
             >
               {theme === "light" ? (
@@ -52,14 +47,12 @@ export function Navbar() {
               )}
             </Button>
 
-            {/* CTA Button */}
             <Button
               className="hidden md:inline-flex rounded-full border border-border bg-muted text-sm font-semibold text-muted-foreground hover:bg-muted/80 transition-colors"
             >
               Get Started
             </Button>
 
-            {/* Mobile Menu Toggle */}
             <Button
               variant="ghost"
               size="icon"

@@ -1,13 +1,9 @@
-/* globals.css - Reset + base + tailwind imports */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* استيراد tokens و animations (إن وُجد) */
-@import "./tokens.css";
 @import "./animations.css";
 
-/* قواعد أساسية يمكن تعديلها لاحقًا */
 html,
 body {
   height: 100%;

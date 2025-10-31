@@ -5,13 +5,11 @@ import CtaPhoto from "../../assets/images/Cta.png";
 export function CtaSection() {
   return (
     <section className="py-16 md:py-24 relative overflow-hidden bg-muted">
-      {/* Background overlay */}
       <div className="absolute inset-0" />
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-background rounded-3xl p-6 sm:p-10 md:p-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -44,7 +42,6 @@ export function CtaSection() {
               </div>
             </motion.div>
 
-            {/* Right Image */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}

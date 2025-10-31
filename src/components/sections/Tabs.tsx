@@ -18,7 +18,6 @@ export function Tabs() {
           overflow-x-auto scrollbar-hide
         "
       >
-        {/* Navigation Buttons */}
         <div className="flex items-center justify-center gap-2 sm:gap-4 p-2 min-w-max flex-wrap sm:flex-nowrap">
           {navLinks.map((link) => (
             <button
@@ -37,7 +36,6 @@ export function Tabs() {
           ))}
         </div>
 
-        {/* Login Button */}
         <Button
           className="
             h-9 sm:h-10 md:h-12 
