@@ -22,13 +22,13 @@ export function CtaSection() {
                 <br className="hidden sm:block" />
                 finances experience
                 <br className="hidden sm:block" />
-                by using <span className="text-primary">FinBiz</span>
+                by using FinBiz
               </h2>
 
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
                 <Button
                   size="lg"
-                  className="shadow-lg shadow-primary/20 w-full sm:w-auto"
+                  className="shadow-lg shadow-primary/20 bg-[#A3DC2F] text-black w-full sm:w-auto rounded-full"
                 >
                   Request Demo
                 </Button>
