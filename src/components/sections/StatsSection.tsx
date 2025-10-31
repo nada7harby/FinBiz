@@ -62,13 +62,19 @@ console.log(data);
               <div className="flex items-end justify-between gap-4">
                 <div className="text-4xl font-bold">{metric.value}</div>
                 <div className="flex items-end gap-1 h-12">
-                  {metric.bars?.map((height, i) => (
-                    <div
-                      key={i}
-                      className={`w-1 ${metric.bar_color?.[i]} rounded-sm`}
-                      style={{ height: `${height}%` }}
-                    />
-                  ))}
+                {metric.bars?.map((height, i) => {
+  const raw = metric.bar_color?.[i];
+  const match = raw ? String(raw).match(/#([A-Fa-f0-9]{3,8})/) : null;
+  const bgHex = match ? `#${match[1]}` : null;
+  const classFallback = !bgHex && raw ? String(raw) : "";
+  return (
+    <div
+      key={i}
+      className={`w-1 rounded-sm ${classFallback}`}
+      style={{ height: `${height}%`, ...(bgHex ? { backgroundColor: bgHex } : {}) }}
+    />
+  );
+})}
                 </div>
               </div>
             </motion.div>
