@@ -65,7 +65,7 @@ console.log(data);
                   {metric.bars?.map((height, i) => (
                     <div
                       key={i}
-                      className={`w-1 ${metric.barColor?.[i]} rounded-sm`}
+                      className={`w-1 ${metric.bar_color?.[i]} rounded-sm`}
                       style={{ height: `${height}%` }}
                     />
                   ))}
