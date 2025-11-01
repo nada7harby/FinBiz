@@ -4,10 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/api/supabaseClient";
-import pic1 from "../../assets/images/pic (1).png"; 
-import pic2 from "../../assets/images/pic (2).png";
- import pic3 from "../../assets/images/pic (3).png";
-import comma from "../../assets/images/inverted comma.png";
+import comma from "../../assets/images/comma_light.png";
 
 export function TestimonialsSection() {
   const scrollRef = useRef(null);

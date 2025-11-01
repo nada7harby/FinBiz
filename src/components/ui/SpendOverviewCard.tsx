@@ -40,14 +40,14 @@ export function SpendOverviewCard({ data }: { data: any[] }) {
           <CartesianGrid strokeDasharray="3 3" stroke="#2A2A2C" />
           <XAxis
             dataKey="time"
-            stroke="#666"
+            stroke="#ffffffff"
             tick={{
               fill: '#666',
               fontSize: 12,
             }}
           />
           <YAxis
-            stroke="#666"
+            stroke="#ffffffff"
             tick={{
               fill: '#666',
               fontSize: 12,
