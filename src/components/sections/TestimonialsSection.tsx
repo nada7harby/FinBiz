@@ -1,13 +1,42 @@
 import { motion } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/api/supabaseClient";
-import comma from "../../assets/images/comma_light.png";
+import commalight from "../../assets/images/comma_light.png";
+import commadark from "../../assets/images/comma_dark.png";
 
 export function TestimonialsSection() {
-  const scrollRef = useRef(null);
+const [theme, setTheme] = useState<"light" | "dark">(
+    (localStorage.getItem("theme") as "light" | "dark") || "light"
+  );
+
+  const comma = theme === "dark" ? commalight : commadark;
+
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "theme") {
+        const newTheme = event.newValue as "light" | "dark";
+        if (newTheme) setTheme(newTheme);
+      }
+    };
+
+    const handleLocalChange = () => {
+      const current = localStorage.getItem("theme") as "light" | "dark";
+      if (current && current !== theme) setTheme(current);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    const interval = setInterval(handleLocalChange, 100); // يلتقط تغييرات داخل نفس التبويب
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [theme]);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollNext = () => {
     if (scrollRef.current) {
@@ -31,6 +60,16 @@ export function TestimonialsSection() {
     queryKey: ["testimonials"],
     queryFn: fetchTestimonials,
   });
+
+  useEffect(() => {
+    const handleStorage = () => {
+      const storedTheme = localStorage.getItem("theme") as "light" | "dark";
+      if (storedTheme) setTheme(storedTheme);
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   if (isLoading)
     return <div className="text-center p-10">Loading testimonials...</div>;
@@ -105,11 +144,8 @@ export function TestimonialsSection() {
                     </div>
                   </div>
 
-                  <img
-                    src={comma}
-                    alt="quote"
-                    className="w-[67.5px] h-[48px] opacity-100"
-                  />
+                      <img src={comma} alt="quote" className="w-[67.5px] h-[48px]" />
+
                 </div>
               </motion.div>
             ))}
